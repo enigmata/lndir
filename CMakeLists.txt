@@ -15,3 +15,6 @@ check_cxx_std_filesystem_exists()
 add_executable(lndir src/lndir.cpp)
 target_compile_features(lndir PRIVATE cxx_std_17)
 target_link_libraries(lndir stdc++fs)
+
+install(TARGETS lndir
+        RUNTIME DESTINATION bin)
