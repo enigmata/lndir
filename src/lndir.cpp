@@ -81,7 +81,7 @@ void link_dir_trees(Link_parms link_parms, int indent = 4) noexcept {
     to_path = link_parms.to_dir / i->path().string().substr(from_dir_len);
     if (i->is_directory(ec)) {
       fs::create_directory(to_path, link_parms.to_dir, ec);
-      std::cout << std::string(indent + (i.depth() * 2), ' ')
+      std::cout << std::string(indent + ((i.depth() + 1) * 2), ' ')
                 << i->path().filename() << "\n";
     } else {
       fs::create_symlink(i->path(), to_path, ec);
@@ -101,6 +101,7 @@ int main(int argc, char *argv[]) {
   std::cout << "  from dir: " << link_parms->from_dir << "\n";
   std::cout << "  to dir:   " << link_parms->to_dir << "\n";
   std::cout << "  directories linked:\n";
+  std::cout << "    " << link_parms->from_dir.filename() << "\n";
 
   link_dir_trees(*link_parms);
 
