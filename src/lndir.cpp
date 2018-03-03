@@ -5,20 +5,22 @@
 
 namespace fs = std::filesystem;
 
-constexpr std::string_view usage("\n\
-Name:\n\
-lndir - create a shadow directory of symbolic links to another directory tree\n\
-\n\
-Usage:\n\
-lndir from-dir [to-dir]\n\
-\n\
-Description:\n\
-The lndir program makes a shadow copy <todir> of a directory tree <fromdir>,\n\
-except that the shadow is not populated with real files but instead with\n\
-symbolic links pointing at the real files in the <fromdir> directory tree.\n\
-\n\
-When <todir> is not specified, it defaults to the current directory, from\n\
-which lndir is run.\n");
+constexpr std::string_view usage(
+    "\n"
+    "Name:\n"
+    "lndir - create shadow directory of symlinks to another directory tree\n"
+    "\n"
+    "Usage:\n"
+    "lndir from-dir [to-dir]\n"
+    "\n"
+    "Description:\n"
+    "The lndir program makes a shadow copy <todir> of a directory tree\n"
+    "<fromdir>, except that the shadow is not populated with real files\n"
+    "but instead with symbolic links pointing at the real files in the\n"
+    "<fromdir> directory tree.\n"
+    "\n"
+    "When <todir> is not specified, it defaults to the current directory,\n"
+    "from which lndir is run.\n");
 
 struct Link_parms {
   fs::path from_dir, to_dir;
