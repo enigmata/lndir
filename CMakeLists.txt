@@ -8,7 +8,7 @@ set(CMAKE_MODULE_PATH
 
 include(CheckCXXStdFilesystemExists)
 
-add_compile_options("-Wall" "-Wextra" "-Werror")
+add_compile_options("-Wall" "-Wextra" "-Werror" "-O2")
 
 check_cxx_std_filesystem_exists()
 
