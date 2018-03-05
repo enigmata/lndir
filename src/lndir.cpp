@@ -13,7 +13,7 @@ constexpr std::string_view usage(
     "\n"
     "Usage:\n"
     "\n"
-    "lndir [--suffix <suffix>] from-dir [to-dir]\n"
+    "lndir [options] from-dir [to-dir]\n"
     "\n"
     "Description:\n"
     "\n"
@@ -30,7 +30,9 @@ constexpr std::string_view usage(
     "--suffix <suffix>\n"
     "     Append the text <suffix> to each link in the <to-dir>.\n"
     "     For example, given \"--suffix -v7\", the file \"from-dir/foo\"\n"
-    "     will be linked as \"<to-dir>/foo-v7\".\n\n");
+    "     will be linked as \"<to-dir>/foo-v7\".\n"
+    "--help\n"
+    "     Display this usage help.\n\n");
 
 struct Link_parms {
   fs::path from_dir, to_dir, filename_suffix;
@@ -58,6 +60,9 @@ std::optional<Link_parms> parse_args(int argc, char *argv[]) noexcept {
   Link_parms parms = Link_parms();
 
   for (int arg_num = 1; arg_num < argc; ++arg_num) {
+    if (std::string_view arg{argv[arg_num]}; arg == "--help") {
+      return std::nullopt;
+    }
     if (std::string_view arg{argv[arg_num]}; arg == "--suffix") {
       if (!parms.filename_suffix.empty()) {
         std::cout << "\nError: --suffix option specified more than once.\n";
