@@ -18,3 +18,5 @@ target_link_libraries(lndir stdc++fs)
 
 install(TARGETS lndir
         RUNTIME DESTINATION bin)
+
+add_subdirectory(test)

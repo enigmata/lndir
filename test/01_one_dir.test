@@ -1,0 +1,5 @@
+suffix: ""
+dir: tempdir
+file: tempdir/afile
+file: tempdir/bfile
+file: tempdir/cfile
