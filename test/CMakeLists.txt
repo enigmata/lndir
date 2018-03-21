@@ -8,3 +8,6 @@ add_test(NAME single_dir
 add_test(NAME two_dir_one_nested 
          COMMAND tester 02_two_dir.test
          WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
+add_test(NAME hairy_many_nested_dir
+         COMMAND tester 03_hairy.test
+         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/test)
