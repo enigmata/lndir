@@ -98,7 +98,17 @@ lndir compilers/gcc/vers/8.0.1/bin
 lndir --suffix -v7 compilers/gcc/vers/7.3.1/bin
 ```
 
-### Source/Binaries of Different Machine Architectures
+### Source/Binary Files of Different Machine Architectures
+
+Consider the case where a project contains source code, or binaries, for
+different machine architectures. Further, assume that you need to make
+available the appropriate set of files on various computers, of differing
+architectures. That is, if the full multi-architecture file set is mounted
+onto each computer from a remote server, then you need to ensure that
+computer A, of architecture `amd64`, accesses only the `amd64` set of files
+from the remote mount; whereas computer B, of architecture `arm64`, sees
+only the `arm64` files; and so on. The `lndir` tool can be used to achieve
+this linking of architecture-specific files to computers.
 
 ## Usage
 
