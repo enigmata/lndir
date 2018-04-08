@@ -145,6 +145,38 @@ from which `lndir` is run.
 
 ## Building
 
+### Prerequisites
+
+* [C++17](https://en.wikipedia.org/wiki/C%2B%2B17) compiler with a [`std::filesystem`](http://en.cppreference.com/w/cpp/filesystem) implementation
+    * note, the `cmake` build configuration includes a test for a compatible compiler
+* [`cmake`](https:://cmake.org), minimum version of 3.8.2.
+
+### Build Steps
+
+In the following example of building the `lndir` tool, the `LNDIR_SOURCE_DIR`
+environment variable is set to the directory in which the source code of
+`lndir` is downloaded and compiled. For example, `LNDIR_SOURCE_DIR=/usr/local/src/lndir`.
+
+```bash
+git clone https://github.com/enigmata/lndir.git $LNDIR_SOURCE_DIR
+cd $LNDIR_SOURCE_DIR
+mkdir build
+cd build
+cmake ..
+make
+```
+
+### Compatible Platforms
+
+Successful builds have been performed on these operating systems:
+
+* Linux - Ubuntu 17.10 (artful)
+* Mac OS 10.13
+
+However, it should be possible to build on other versions of Mac OS and
+other versions and distributions of Linux, as the key requirement is
+a version of a C++17 compiler supporting `std::filesystem`.
+
 ## Installation
 
 ## Testing
