@@ -81,7 +81,7 @@ in order for both versions of the executables to coexist in the same directory,
 we will add a suffix for the `7.3.1` binaries: `-v7`. For example, we require
 the following filenames for the `c++` binary:
 
-version | filename
+Version | Filename
 --------|---------
 8.0.1   | `c++`
 7.3.1   | `c++-v7`
@@ -111,6 +111,33 @@ only the `arm64` files; and so on. The `lndir` tool can be used to achieve
 this linking of architecture-specific files to computers.
 
 ## Usage
+
+### Name
+
+lndir - create shadow directory of symlinks to another directory tree
+
+### Syntax
+
+```
+lndir [options] from-dir [to-dir]
+```
+
+### Description
+
+The lndir program makes a shadow copy **todir** of a directory tree
+**fromdir**, except that the shadow is not populated with real files
+but instead with symbolic links pointing at the real files in the
+**fromdir** directory tree.
+
+When **todir** is not specified, it defaults to the current directory,
+from which lndir is run.
+
+### Options
+
+Option | Description
+-------|------------
+--suffix _suffix_ | Append the text _suffix_ to each link in the **to-dir**.  For example, given "--suffix -v7", the file "from-dir/foo" will be linked as "**to-dir**/foo-v7".
+--help | Display the usage help.
 
 ## Building
 
