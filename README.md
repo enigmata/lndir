@@ -114,7 +114,7 @@ this linking of architecture-specific files to computers.
 
 ### Name
 
-lndir - create shadow directory of symlinks to another directory tree
+_lndir_ - create shadow directory of symlinks to another directory tree
 
 ### Syntax
 
@@ -124,20 +124,24 @@ lndir [options] from-dir [to-dir]
 
 ### Description
 
-The lndir program makes a shadow copy **todir** of a directory tree
-**fromdir**, except that the shadow is not populated with real files
+The `lndir` tool makes a shadow copy **to-dir** of a directory tree
+**from-dir**, except that the shadow is not populated with real files
 but instead with symbolic links pointing at the real files in the
-**fromdir** directory tree.
+**from-dir** directory tree.
 
-When **todir** is not specified, it defaults to the current directory,
-from which lndir is run.
+When **to-dir** is not specified, it defaults to the current directory,
+from which `lndir` is run.
 
 ### Options
 
-Option | Description
--------|------------
---suffix _suffix_ | Append the text _suffix_ to each link in the **to-dir**.  For example, given "--suffix -v7", the file "from-dir/foo" will be linked as "**to-dir**/foo-v7".
---help | Display the usage help.
+`--suffix <suffix>`
+
+* Append the text `<suffix>` to each link in the **to-dir**
+* For example, given `--suffix -v7`, the file `from-dir/foo` will be linked as `to-dir/foo-v7`
+
+`--help`
+
+* Display the usage help
 
 ## Building
 
