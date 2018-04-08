@@ -31,7 +31,7 @@ versions of the compiler will need to be made available: `7.3.1` and
 `8.0.1`. As such, the following `bin` directory can be set up using `lndir`:
 
 ```
-.
+bin
 ├── compilers
 ├── c++ -> compilers/gcc/vers/8.0.1/bin/c++
 ├── c++-v7 -> compilers/gcc/vers/7.3.1/bin/c++
@@ -72,7 +72,7 @@ versions of the compiler will need to be made available: `7.3.1` and
 In the above directory structure, where the top level directory is a `bin`
 directory, there is a sub-directory called `compilers` which contains the
 binary files of each version of `gcc` that we require:
-`./compilers/gcc/vers/7.3.1` and `./compilers/gcc/vers/8.0.1.
+`./compilers/gcc/vers/7.3.1` and `./compilers/gcc/vers/8.0.1`.
 
 Let's assume that we want the most recent version of `gcc`, that is `8.0.1`,
 to be the default compiler. As such, we would like the names of the `8.0.1`
@@ -86,7 +86,7 @@ version | filename
 8.0.1   | `c++`
 7.3.1   | `c++-v7`
 
-To achieve this co-existence of these two versions of the `gcc` binaries,
+To achieve the co-existence of these two versions of the `gcc` binaries,
 using this filename convention to distinguish the different versions of
 the binaries, the following could be how you use `lndir` to set this
 up, given that the sub-directories of these two versions of `gcc` are
