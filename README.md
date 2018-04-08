@@ -149,7 +149,7 @@ from which `lndir` is run.
 
 * [C++17](https://en.wikipedia.org/wiki/C%2B%2B17) compiler with a [`std::filesystem`](http://en.cppreference.com/w/cpp/filesystem) implementation
     * note, the `cmake` build configuration includes a test for a compatible compiler
-* [`cmake`](https:://cmake.org), minimum version of 3.8.2.
+* [`cmake`](https://cmake.org), minimum version of 3.8.2.
 
 ### Build Steps
 
