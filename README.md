@@ -16,17 +16,95 @@ library, of [C++17](https://en.wikipedia.org/wiki/C%2B%2B17), I
 was also motivated by the dream to one day make this utility
 more accessible to people not using X Windows, or not interested
 in installing such a package as `xutils-dev` in order to get
-this single utility
+this single utility.
 
 ## Use Cases
 
-### Source/Binaries of Different Machine Architectures
-
 ### Multiple Versions of Compilers
+
+In this use case, there is a need to make available multiple versions
+of a C++ compiler, for the purpose of ensuring that a project's
+source code compiles against the most recent versions of the compiler.
+
+For example, assume that the `gcc` compiler is used, and that two
+versions of the compiler will need to be made available: `7.3.1` and
+`8.0.1`. As such, the following `bin` directory can be set up using `lndir`:
+
+```
+.
+├── compilers
+├── c++ -> compilers/gcc/vers/8.0.1/bin/c++
+├── c++-v7 -> compilers/gcc/vers/7.3.1/bin/c++
+├── cpp -> compilers/gcc/vers/8.0.1/bin/cpp
+├── cpp-v7 -> compilers/gcc/vers/7.3.1/bin/cpp
+├── g++ -> compilers/gcc/vers/8.0.1/bin/g++
+├── g++-v7 -> compilers/gcc/vers/7.3.1/bin/g++
+├── gcc -> compilers/gcc/vers/8.0.1/bin/gcc
+├── gcc-v7 -> compilers/gcc/vers/7.3.1/bin/gcc
+├── gcc-ar -> compilers/gcc/vers/8.0.1/bin/gcc-ar
+├── gcc-ar-v7 -> compilers/gcc/vers/7.3.1/bin/gcc-ar
+├── gcc-nm -> compilers/gcc/vers/8.0.1/bin/gcc-nm
+├── gcc-nm-v7 -> compilers/gcc/vers/7.3.1/bin/gcc-nm
+├── gcc-ranlib -> compilers/gcc/vers/8.0.1/bin/gcc-ranlib
+├── gcc-ranlib-v7 -> compilers/gcc/vers/7.3.1/bin/gcc-ranlib
+├── gcov -> compilers/gcc/vers/8.0.1/bin/gcov
+├── gcov-v7 -> compilers/gcc/vers/7.3.1/bin/gcov
+├── gcov-dump -> compilers/gcc/vers/8.0.1/bin/gcov-dump
+├── gcov-dump-v7 -> compilers/gcc/vers/7.3.1/bin/gcov-dump
+├── gcov-tool -> compilers/gcc/vers/8.0.1/bin/gcov-tool
+├── gcov-tool-v7 -> compilers/gcc/vers/7.3.1/bin/gcov-tool
+├── x86_64-pc-linux-gnu-c++ -> compilers/gcc/vers/8.0.1/bin/x86_64-pc-linux-gnu-c++
+├── x86_64-pc-linux-gnu-c++-v7 -> compilers/gcc/vers/7.3.1/bin/x86_64-pc-linux-gnu-c++
+├── x86_64-pc-linux-gnu-gcc -> compilers/gcc/vers/8.0.1/bin/x86_64-pc-linux-gnu-gcc
+├── x86_64-pc-linux-gnu-gcc-v7 -> compilers/gcc/vers/7.3.1/bin/x86_64-pc-linux-gnu-gcc
+├── x86_64-pc-linux-gnu-gcc-7.3-v7.1 -> compilers/gcc/vers/7.3.1/bin/x86_64-pc-linux-gnu-gcc-7.3.1
+├── x86_64-pc-linux-gnu-gcc-8.0.1 -> compilers/gcc/vers/8.0.1/bin/x86_64-pc-linux-gnu-gcc-8.0.1
+├── x86_64-pc-linux-gnu-gcc-ar -> compilers/gcc/vers/8.0.1/bin/x86_64-pc-linux-gnu-gcc-ar
+├── x86_64-pc-linux-gnu-gcc-ar-v7 -> compilers/gcc/vers/7.3.1/bin/x86_64-pc-linux-gnu-gcc-ar
+├── x86_64-pc-linux-gnu-gcc-nm -> compilers/gcc/vers/8.0.1/bin/x86_64-pc-linux-gnu-gcc-nm
+├── x86_64-pc-linux-gnu-gcc-nm-v7 -> compilers/gcc/vers/7.3.1/bin/x86_64-pc-linux-gnu-gcc-nm
+├── x86_64-pc-linux-gnu-gcc-ranlib -> compilers/gcc/vers/8.0.1/bin/x86_64-pc-linux-gnu-gcc-ranlib
+├── x86_64-pc-linux-gnu-gcc-ranlib-v7 -> compilers/gcc/vers/7.3.1/bin/x86_64-pc-linux-gnu-gcc-ranlib
+├── x86_64-pc-linux-gnu-g++ -> compilers/gcc/vers/8.0.1/bin/x86_64-pc-linux-gnu-g++
+└── x86_64-pc-linux-gnu-g++-v7 -> compilers/gcc/vers/7.3.1/bin/x86_64-pc-linux-gnu-g++
+```
+
+In the above directory structure, where the top level directory is a `bin`
+directory, there is a sub-directory called `compilers` which contains the
+binary files of each version of `gcc` that we require:
+`./compilers/gcc/vers/7.3.1` and `./compilers/gcc/vers/8.0.1.
+
+Let's assume that we want the most recent version of `gcc`, that is `8.0.1`,
+to be the default compiler. As such, we would like the names of the `8.0.1`
+executables to be the unadorned defaults:  `gcc`, `g++`, etc. Therefore,
+in order for both versions of the executables to coexist in the same directory,
+we will add a suffix for the `7.3.1` binaries: `-v7`. For example, we require
+the following filenames for the `c++` binary:
+
+version | filename
+--------|---------
+8.0.1   | `c++`
+7.3.1   | `c++-v7`
+
+To achieve this co-existence of these two versions of the `gcc` binaries,
+using this filename convention to distinguish the different versions of
+the binaries, the following could be how you use `lndir` to set this
+up, given that the sub-directories of these two versions of `gcc` are
+already populated:  `compilers/gcc/vers/7.3.1` and `compilers/gcc/vers/8.0.1`:
+
+```bash
+cd $GCC_BIN_DIR
+lndir compilers/gcc/vers/8.0.1/bin
+lndir --suffix -v7 compilers/gcc/vers/7.3.1/bin
+```
+
+### Source/Binaries of Different Machine Architectures
 
 ## Usage
 
 ## Building
+
+## Installation
 
 ## Testing
 
