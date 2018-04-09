@@ -179,8 +179,8 @@ a version of a C++17 compiler supporting `std::filesystem`.
 
 ## Installation
 
-After building the `lndir` tool, as described in the previous section, you
-can either copy the executable into a directory in your `PATH` or use
+After building the `lndir` tool, as [described in the previous section](#build-steps),
+you can either copy the executable into a directory in your `PATH` or use
 `make` to install it:
 
 ```bash
