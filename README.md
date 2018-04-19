@@ -139,6 +139,10 @@ from which `lndir` is run.
 * Append the text `<suffix>` to each link in the **to-dir**
 * For example, given `--suffix -v7`, the file `from-dir/foo` will be linked as `to-dir/foo-v7`
 
+`--version`
+
+* Print the tool's semver version as `<major>.<minor>.<patch>`
+
 `--help`
 
 * Display the usage help
