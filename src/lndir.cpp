@@ -3,6 +3,8 @@
 #include <optional>
 #include <string_view>
 
+#include "version.hpp"
+
 namespace fs = std::filesystem;
 
 constexpr std::string_view usage(
@@ -31,11 +33,20 @@ constexpr std::string_view usage(
     "     Append the text <suffix> to each link in the <to-dir>.\n"
     "     For example, given \"--suffix -v7\", the file \"from-dir/foo\"\n"
     "     will be linked as \"<to-dir>/foo-v7\".\n"
+    "--version\n"
+    "     Print the tool's semver version as <major>.<minor>.<patch>\n"
     "--help\n"
     "     Display this usage help.\n\n");
 
 struct Link_parms {
   fs::path from_dir, to_dir, filename_suffix;
+};
+
+enum class Cmd_options { none, help, version };
+
+struct Cmd_args {
+  Link_parms link_parms;
+  Cmd_options options;
 };
 
 bool is_valid_directory(fs::path dir, std::error_code &ec) noexcept {
@@ -56,15 +67,21 @@ void normalize_path(fs::path &path) {
   return;
 }
 
-std::optional<Link_parms> parse_args(int argc, char *argv[]) noexcept {
-  Link_parms parms = Link_parms();
+std::optional<Cmd_args> parse_args(int argc, char *argv[]) noexcept {
+  Cmd_args args = Cmd_args();
 
   for (int arg_num = 1; arg_num < argc; ++arg_num) {
-    if (std::string_view arg{argv[arg_num]}; arg == "--help") {
-      return std::nullopt;
+    std::string_view arg_string{argv[arg_num]};
+    if (arg_string == "--help") {
+      args.options = Cmd_options::help;
+      return args;
     }
-    if (std::string_view arg{argv[arg_num]}; arg == "--suffix") {
-      if (!parms.filename_suffix.empty()) {
+    if (arg_string == "--version") {
+      args.options = Cmd_options::version;
+      return args;
+    }
+    if (arg_string == "--suffix") {
+      if (!args.link_parms.filename_suffix.empty()) {
         std::cout << "\nError: --suffix option specified more than once.\n";
         return std::nullopt;
       }
@@ -73,41 +90,41 @@ std::optional<Link_parms> parse_args(int argc, char *argv[]) noexcept {
         std::cout << "\nError: No text provided for the --suffix option.\n";
         return std::nullopt;
       }
-      parms.filename_suffix = argv[arg_num];
+      args.link_parms.filename_suffix = argv[arg_num];
     } else {
-      if (parms.from_dir.empty()) {
-        parms.from_dir = argv[arg_num];
-      } else if (parms.to_dir.empty()) {
-        parms.to_dir = argv[arg_num];
+      if (args.link_parms.from_dir.empty()) {
+        args.link_parms.from_dir = argv[arg_num];
+      } else if (args.link_parms.to_dir.empty()) {
+        args.link_parms.to_dir = argv[arg_num];
       }
     }
   }
 
-  if (parms.from_dir.empty()) {
+  if (args.link_parms.from_dir.empty()) {
     std::cout << "\nError: Missing <from_dir>, a mandatory argument.\n";
     return std::nullopt;
   }
 
-  if (parms.to_dir.empty()) {
-    parms.to_dir = fs::current_path();
+  if (args.link_parms.to_dir.empty()) {
+    args.link_parms.to_dir = fs::current_path();
   }
 
   std::error_code ec;
-  if (!is_valid_directory(parms.from_dir, ec) ||
-      !is_valid_directory(parms.to_dir, ec)) {
+  if (!is_valid_directory(args.link_parms.from_dir, ec) ||
+      !is_valid_directory(args.link_parms.to_dir, ec)) {
     return std::nullopt;
   }
 
-  if (fs::equivalent(parms.from_dir, parms.to_dir, ec)) {
+  if (fs::equivalent(args.link_parms.from_dir, args.link_parms.to_dir, ec)) {
     std::cout << "\nError: from-dir and to-dir are the same directory!\n";
     return std::nullopt;
   }
 
-  normalize_path(parms.from_dir);
-  normalize_path(parms.to_dir);
-  normalize_path(parms.filename_suffix);
+  normalize_path(args.link_parms.from_dir);
+  normalize_path(args.link_parms.to_dir);
+  normalize_path(args.link_parms.filename_suffix);
 
-  return parms;
+  return args;
 }
 
 void link_dir_trees(Link_parms link_parms, int indent = 4) noexcept {
@@ -142,22 +159,29 @@ void link_dir_trees(Link_parms link_parms, int indent = 4) noexcept {
 }
 
 int main(int argc, char *argv[]) {
-  std::optional<Link_parms> link_parms = parse_args(argc, argv);
-  if (!link_parms) {
+
+  std::optional<Cmd_args> cmd_args = parse_args(argc, argv);
+
+  if (!cmd_args || cmd_args->options == Cmd_options::help) {
     std::cout << usage;
     return -1;
   }
+  if (cmd_args->options == Cmd_options::version) {
+    std::cout << "lndir " << VERSION_MAJOR << "." << VERSION_MINOR << "."
+              << VERSION_PATCH << "\n";
+    return 0;
+  }
 
   std::cout << "Linking:\n";
-  std::cout << "  from dir: " << link_parms->from_dir << "\n";
-  std::cout << "  to dir:   " << link_parms->to_dir << "\n";
-  if (!link_parms->filename_suffix.empty()) {
-    std::cout << "  suffix:   " << link_parms->filename_suffix << "\n";
+  std::cout << "  from dir: " << cmd_args->link_parms.from_dir << "\n";
+  std::cout << "  to dir:   " << cmd_args->link_parms.to_dir << "\n";
+  if (!cmd_args->link_parms.filename_suffix.empty()) {
+    std::cout << "  suffix:   " << cmd_args->link_parms.filename_suffix << "\n";
   }
   std::cout << "  directories linked:\n";
-  std::cout << "    " << link_parms->from_dir.filename() << "\n";
+  std::cout << "    " << cmd_args->link_parms.from_dir.filename() << "\n";
 
-  link_dir_trees(*link_parms);
+  link_dir_trees(cmd_args->link_parms);
 
   return 0;
 }
