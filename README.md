@@ -1,4 +1,6 @@
-# lndir -- link Directory Tree
+[![Build Status](https://travis-ci.org/enigmata/lndir.svg?branch=master)](https://travis-ci.org/enigmata/lndir)
+
+# lndir -- Link Directory Tree
 
 Create a shadow directory of symbolic links to another directory tree.
 
