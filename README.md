@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/enigmata/lndir.svg?branch=master)](https://travis-ci.org/enigmata/lndir)
+![](https://github.com/enigmata/lndir/workflows/Build%20and%20test/badge.svg)
 
 # lndir -- Link Directory Tree
 
