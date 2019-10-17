@@ -45,7 +45,7 @@ jobs:
           export CXX=g++-8
           mkdir build
           cd build
+          export PATH=$PATH:$PWD
           /usr/bin/cmake -D CMAKE_CXX_COMPILER="$(which g++-8)" ..
           make
-          make install
           make test
