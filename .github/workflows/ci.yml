@@ -9,9 +9,6 @@ jobs:
   build-test-MacOS:
     name: Build then unit test binaries on MacOS
     runs-on: macOS-latest
-    strategy:
-      matrix:
-        cxx: g++-9
     steps:
       - name: Install build tools
         run: |
@@ -24,6 +21,6 @@ jobs:
         run: |
           mkdir build
           cd build
-          cmake -D CMAKE_CXX_COMPILER="$(which ${{ matrix.cxx }})" ..
+          cmake -D CMAKE_CXX_COMPILER="$(which g++-9)" ..
           make
           make test
