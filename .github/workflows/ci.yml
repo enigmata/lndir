@@ -23,4 +23,5 @@ jobs:
           cd build
           cmake -D CMAKE_CXX_COMPILER="$(which g++-9)" ..
           make
+          make install
           make test
