@@ -1,0 +1,29 @@
+name: Build and test
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-test-MacOS:
+    name: Build then unit test binaries on MacOS
+    runs-on: macOS-latest
+    strategy:
+      matrix:
+        cxx: g++-9
+    steps:
+      - name: Install build tools
+        run: |
+          brew update
+          brew install gcc@9
+          brew upgrade cmake
+      - name: Clone repo
+        uses: actions/checkout@v1
+      - name: Compile then test
+        run: |
+          mkdir build
+          cd build
+          cmake -D CMAKE_CXX_COMPILER="$(which ${{ matrix.cxx }})" ..
+          make
+          make test
