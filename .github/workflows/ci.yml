@@ -25,3 +25,27 @@ jobs:
           make
           make install
           make test
+  build-test-linux:
+    name: Build then unit test binaries on Linux
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Install build tools
+        run: |
+          wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | sudo apt-key add -
+          sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt update
+          sudo apt install cmake
+          sudo apt install g++-8
+      - name: Clone repo
+        uses: actions/checkout@v1
+      - name: Compile then test
+        run: |
+          /usr/bin/cmake --version
+          export CXX=g++-8
+          mkdir build
+          cd build
+          /usr/bin/cmake -D CMAKE_CXX_COMPILER="$(which g++-8)" ..
+          make
+          make install
+          make test
